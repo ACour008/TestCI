@@ -1,6 +1,6 @@
 name: Build Unity Project
 
-on: workflow_dipatch
+on: workflow_dispatch
 
 jobs:
   build:
