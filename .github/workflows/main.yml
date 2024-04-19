@@ -1,4 +1,4 @@
-name: Build for WebGL platform
+name: Build UNity Project
 
 on: workflow_dipatch
 
