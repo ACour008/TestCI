@@ -1,4 +1,4 @@
-name: Build UNity Project
+name: Build Unity Project
 
 on: workflow_dipatch
 
@@ -12,23 +12,23 @@ jobs:
         with:
           lfs: true
 
-    - uses: actions/cache@v3
-      with:
-        path: Library
-        key: Library-${{ hasFiles("Assets/**", "Packages/**", "ProjectSettings/**") }}
-        restore-keys: |
-          Library-
+      - uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ hasFiles("Assets/**", "Packages/**", "ProjectSettings/**") }}
+          restore-keys: |
+            Library-
 
-    - name: Build project
-      uses: game-ci/unity-builder@v4
-      env:
-        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-        UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-        UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-      with:
-        targetPlatform: WebGL
+      - name: Build project
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: WebGL
 
-    - uses: actions/upload-artifact@V3
-      with:
+      - uses: actions/upload-artifact@V3
+        with:
           name: Build
           path: build
