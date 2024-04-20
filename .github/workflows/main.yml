@@ -36,7 +36,7 @@ jobs:
           projectPath: $WIN_64_BUILD_PATH
           targetPlatform: StandaloneWindows
 
-      - uses: manleydev/butler-publish-itchio-atcion@master
+      - uses: manleydev/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: $$ {{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: windows
