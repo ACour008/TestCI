@@ -26,10 +26,7 @@ runs:
     - name: Install Butler
       run: curl -L -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default && unzip butler.zip butler && chmod +x butler
       shell: bash
-    - name: pwd
-      run: pwd
-      shell: bash
     - name: Push to Itch
-      run: ./butler push -i $BUTLER_API_KEY \"$PACKAGE $USER/$GAME_NAME:$CHANNEL\" --userversion $VERSION
+      run: ./butler push -i $BUTLER_API_KEY \"$PACKAGE $USER/$GAME_NAME:$CHANNEL\" --userversion=$VERSION
       shell: bash
   
