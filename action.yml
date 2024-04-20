@@ -15,7 +15,7 @@ inputs:
     required: true
   channel:
     description: slot your pushing to (Ex. windows-beta, osx-bonus, linux-universal)
-    required true
+    required: true
 
 
 runs:
