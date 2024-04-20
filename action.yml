@@ -1,30 +1,30 @@
-name: "Butler Upload"
-description: "Uploads project to itch using butler"
+name: "Push To Itch"
+description: "Pushes your project to Itch using Butler"
 inputs:
-  butler-credentials:
-    description: Key given to you by butler needed to push project
+  BUTLER_API_KEY:
+    description: "Your Butler API Key. Best to use GitHub secrets."
     required: true
-  package-name:
-    description: Name of the project you want to push
+  PACKAGE:
+    description: "What you want uploaded"
     required: true
-  username:
-    description: Your username
+  USER:
+    description: "Your Itch Username"
     required: true
-  game-name:
-    description: Name of the game
+  GAME_NAME:
+    description: "The name of your game page"
     required: true
-  channel:
-    description: slot your pushing to (Ex. windows-beta, osx-bonus, linux-universal)
+  CHANNEL:
+    description: "The slot you are uploading your project to"
     required: true
-
-
-runs:
-  using: "composite"
-  steps:
-    - name: Install Butler
-      run: echo "curl -L -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default && unzip butler.zip && cp butler /usr/bin && chmod +x /usr/bin/butler"
-      shell: bash
-    
-    - name: Run Upload Script
-      run: echo "butler push $package-name $username/$game-name:$channel -i $butler-credentials"
-      shell: bash
+  
+  runs:
+    using: "composite"
+    steps:
+      - name: Install Butler
+        run: echo "curl -L -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default && unzip butler.zip && cp butler /usr/bin && chmod +x /usr/bin/butler"
+        shell: bash
+      
+      - name: Push to Itch
+        run: echo "butler push -i $BUTLER_API_KEY $PACKAGE $USER/$GAME_NAME:$CHANNEL"
+        shell: bash
+  

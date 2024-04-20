@@ -35,10 +35,11 @@ jobs:
         with:
           targetPlatform: StandaloneWindows
       
-      - name: Upload to Butler
+      - name: Push to Itch
         uses: ./
         env:
-          butler-credentials: ${{ secrets.BUTLER_API_KEY }}
-          package-name: build
-          game-name: testci
-          channel: windows
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+          PACKAGE: build
+          USER: acour008
+          GAME_NAME: testci
+          CHANNEL: windows
