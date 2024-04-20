@@ -26,5 +26,5 @@ runs:
       shell: bash
     
     - name: Run Upload Script
-      run: echo "butler push -i $butler-credentials $username/$game-name:$channel"
+      run: echo "butler push $package-name $username/$game-name:$channel -i $butler-credentials"
       shell: bash
