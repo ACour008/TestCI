@@ -33,7 +33,6 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          projectPath: $WIN_64_BUILD_PATH
           targetPlatform: StandaloneWindows
 
       - uses: manleydev/butler-publish-itchio-action@master
