@@ -8,10 +8,6 @@ env:
   WIN_64_BUILD_PATH: build/windows-64bit
   MAC_BUILD_PATH: build/macos
 
-runs:
-  using: 'node20'
-  main: 'main.js'
-
 jobs:
   build:
     name: Build for Windows Standalone
@@ -22,7 +18,7 @@ jobs:
         with:
           lfs: true
 
-      # Cache Library folder
+      - name: Cache library
       - uses: actions/cache@v3
         with:
           path: Library
@@ -39,10 +35,11 @@ jobs:
         with:
           targetPlatform: StandaloneWindows
 
-      - uses: manleydev/butler-publish-itchio-action@master
-        env:
-          BUTLER_CREDENTIALS: $$ {{ secrets.BUTLER_CREDENTIALS }}
-          CHANNEL: windows
-          ITCH_GAME: testci
-          ITCH_USER: ACour008
-          PACKAGE: $WIN_64_BUILD_PATH
+      - name: Push to itch.io
+      - uses: Ayowel/butler-to-itch@v1.0.0
+        with:
+          butler_key: ${{ secrets.BUTLER_API_KEY }}
+          itch_user: ACour008
+          itch_game: testci
+          files: |
+            build/*
