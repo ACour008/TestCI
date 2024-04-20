@@ -24,10 +24,10 @@ runs:
   using: "composite"
   steps:
     - name: Install Butler
-      run: curl -L -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default && unzip butler.zip butler && chmod +x butler && export PATH="/home/runner/work/TestCI/TestCI/butler:$PATH"
+      run: curl -L -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default && unzip butler.zip butler && chmod +x butler"
       shell: bash
     - name: Check Butler Version
-      run: butler -v
+      run: ./butler -v
       shell: bash
 
     #- name: Push to Itch
