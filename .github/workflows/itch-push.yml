@@ -20,3 +20,4 @@ jobs:
                 USER: acour008
                 GAME_NAME: testci
                 CHANNEL: windows
+                VERSION: 1.0
