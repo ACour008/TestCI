@@ -34,12 +34,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: StandaloneWindows
-
-      - name: Push to itch.io
-        uses: Ayowel/butler-to-itch@v1.0.0
-        with:
-          butler_key: ${{ secrets.BUTLER_API_KEY }}
-          itch_user: ACour008
-          itch_game: testci
-          files: |
-            build/*
+      - run: echo random-number "$RANDOM_NUMBER"
+        shell: bash
+        env:
+          RANDOM_NUMBER: ${{ steps.foo}}
