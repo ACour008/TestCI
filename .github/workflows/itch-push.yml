@@ -1,0 +1,17 @@
+name: Push premade build to Itch
+
+on: workflow_dispatch
+
+jobs:
+    push:
+        name: Push to Itch
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install butler
+              uses: ./
+              env:
+                BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+                PACKAGE: testbuild
+                USER: acour008
+                GAME_NAME: testci
+                CHANNEL: windows
