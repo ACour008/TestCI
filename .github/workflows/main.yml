@@ -39,7 +39,7 @@ jobs:
         uses: ./
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-          PACKAGE: build
+          PACKAGE: build/StandaloneWindows
           USER: acour008
           GAME_NAME: testci
           CHANNEL: windows
