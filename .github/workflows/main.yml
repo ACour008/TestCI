@@ -2,11 +2,7 @@ name: Build Unity Project
 
 on:
   schedule:
-    - cron: "55 3 * * *" # every day at 4AM UTC (12AM EST)
-
-env:
-  WIN_64_BUILD_PATH: build/windows-64bit
-  MAC_BUILD_PATH: build/macos
+    - cron: "10 4 * * *" # every day at 4AM UTC (12AM EST)
 
 jobs:
   build:
