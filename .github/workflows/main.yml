@@ -1,8 +1,8 @@
 name: Build Unity Project
 
-on: workflow_dispatch
-#  schedule:
-#    - cron: "30 6 * * *" # every day at 6:30AM UTC (2:30 EST)
+on:
+  schedule:
+    - cron: "30 6 * * *" # every day at 6:30AM UTC (2:30 EST)
 
 env:
   WIN_64_BUILD_PATH: build/windows-64bit
@@ -12,6 +12,14 @@ jobs:
   build:
     name: Build for Windows Standalone
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        targetPlatform:
+          - StandaloneOSX
+          # - StandaloneWindows
+        butlerChannel:
+          - osx
+          # - win
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -22,7 +30,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          key: Library-${{ matrix.targetPlatform }}
           restore-keys: |
             Library-
 
@@ -33,13 +41,17 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          targetPlatform: StandaloneWindows
+          targetPlatform: ${{ matrix.targetPlatform }}
       
+      - name: Builds path sanity check
+        run: ls
+        shell: bash
+
       - name: Push to Itch
-        uses: ./
+        uses: ./actions/push-to-itchio
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-          PACKAGE: build
+          PACKAGE: ${{ matrix.targetPlatform }}
           USER: acour008
           GAME_NAME: testci
-          CHANNEL: windows
+          CHANNEL: ${{ matrix.butlerChannel }}
