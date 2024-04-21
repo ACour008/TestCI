@@ -23,9 +23,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: ls
-      run: ls build
-      shell: bash
     - name: Install Butler
       run: curl -L -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default && unzip butler.zip butler && chmod +x butler
       shell: bash
