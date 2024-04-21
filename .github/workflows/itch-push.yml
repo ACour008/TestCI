@@ -15,7 +15,7 @@ jobs:
               uses: ./
               env:
                 BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-                PACKAGE: testbuild/windows-64bit.zip
+                PACKAGE: ./testbuild/windows-64bit.zip
                 USER: acour008
                 GAME_NAME: testci
                 CHANNEL: windows
