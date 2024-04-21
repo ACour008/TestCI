@@ -51,7 +51,7 @@ jobs:
         uses: ./actions/push-to-itchio
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-          PACKAGE: ${{ matrix.targetPlatform }}
+          PACKAGE: build/${{ matrix.targetPlatform }}
           USER: acour008
           GAME_NAME: testci
           CHANNEL: ${{ matrix.butlerChannel }}
