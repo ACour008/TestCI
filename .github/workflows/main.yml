@@ -78,7 +78,7 @@ jobs:
         shell: bash
 
       - name: Push to Itch
-        uses: ./actions/push-to-itchio
+        uses: ./.github/actions/push-to-itchio
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
           PACKAGE: ${{ (needs.read.outputs.result).buildPath }}
