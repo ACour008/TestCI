@@ -1,6 +1,7 @@
 name: Build Unity Project
 
-on:
+on: 
+  workflow_dispatch:
   schedule:
     - cron: "10 4 * * *" # every day at 4AM UTC (12AM EST)
 
