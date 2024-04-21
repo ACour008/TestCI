@@ -27,6 +27,6 @@ runs:
       run: curl -L -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default && unzip butler.zip butler && chmod +x butler
       shell: bash
     - name: Push to Itch
-      run: ./butler push -i $BUTLER_API_KEY \"$PACKAGE $USER/$GAME_NAME:$CHANNEL\" --userversion=$VERSION
+      run: ./butler push $PACKAGE $USER/$GAME_NAME:$CHANNEL --userversion=$VERSION --identity=$BUTLER_API_KEY
       shell: bash
   
