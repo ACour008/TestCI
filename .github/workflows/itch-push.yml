@@ -11,6 +11,14 @@ jobs:
               uses: actions/checkout@v4
               with:
                 lfs: true
-            - name: List Directory
-              run: ls
+            - name: Zip testbuild
+              run: zip testbuild -o testbuild.zip
               shell: bash
+            - name: Push to Itch
+              uses: ./
+              env:
+                BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+                PACKAGE: testbuild.zip
+                USER: acour008
+                GAME_NAME: testci
+                CHANNEL: windows
