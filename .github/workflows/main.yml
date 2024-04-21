@@ -1,4 +1,4 @@
-name: Build Unity Project
+name: Build and Push Unity Projects
 
 on: 
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build for Windows Standalone
+    name: Build Unity Projects
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -41,11 +41,11 @@ jobs:
       - name: Write Matrices
         uses: cloudposse/github-action-matrix-outputs-write@v1
         id: out
-        with:
-          matrix-step-name: ${{ github.job }}
-          matrix-key: ${{ matrix.targetPlatform }}
-          outputs: |-
-            buildPath: build/${{matrix.targetPlatform}}
+        # with:
+          # matrix-step-name: ${{ github.job }}
+          # matrix-key: ${{ matrix.targetPlatform }}
+          # outputs: |-
+            # buildPaths: build/${{matrix.targetPlatform}}
     
   read:
     runs-on: ubuntu-latest
