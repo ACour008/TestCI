@@ -6,83 +6,80 @@ on:
     - cron: "30 6 * * *" # every day at 6:30AM UTC (2:30AM EST)
 
 jobs:
-  build:
-    name: Build Unity projects
+  build-win:
+    name: Build Windows Standalone
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        targetPlatform:
-          - StandaloneOSX
-          - StandaloneWindows
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           lfs: true
-
+      
       - name: Cache library
         uses: actions/cache@v3
         with:
           path: Library
-          key: Library-${{ matrix.targetPlatform }}
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
             Library-
 
-      - name: Build project
-        id: build
+      - name: Build
         uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          targetPlatform: ${{ matrix.targetPlatform }}
+          targetPlatform: StandaloneWindows
       
-      - name: Write Matrices
-        uses: cloudposse/github-action-matrix-outputs-write@v1
-        id: out
-        with:
-          matrix-step-name: ${{ github.job }}
-          matrix-key: ${{ matrix.targetPlatform }}
-          outputs: |-
-            buildPaths: ${{matrix.targetPlatform}}
-    
-  read:
+      - name: Sanity Check
+        run: ls build
+        shell: bash
+
+      - name: Push
+        uses: ./actions/push-to-itchio
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+          PACKAGE: build/
+          USER: acour008
+          GAME_NAME: testci
+          CHANNEL: win         
+
+  build-osx:
+    name: Build MacOS X Standalone
     runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: cloudposse/github-action-matrix-outputs-read@v1
-        id: read
-        with:
-          matrix-step-name: build
-    outputs:
-      result: "${{ steps.read.outputs.result }}"
-        
-  push:
-    name: Push builds to itch.io
-    runs-on: ubuntu-latest
-    needs: [read]
-    strategy:
-      matrix:
-        targetPlatform:
-          - macos
-          - win
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           lfs: true
+      
+      - name: Cache library
+        uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
 
-      - name: Builds path sanity check
-        run: ls && echo "${{ needs.read.outputs.result }}"
+      - name: Build
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: StandaloneOSX
+      
+      - name: Sanity Check
+        run: ls build
         shell: bash
 
-      - name: Push to Itch
+      - name: Push
         uses: ./actions/push-to-itchio
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-          PACKAGE: build/${{ (needs.read.outputs.result).buildPath }}
+          PACKAGE: build/
           USER: acour008
           GAME_NAME: testci
-          CHANNEL: ${{ matrix.targetPlatform }}
-          
+          CHANNEL: os
