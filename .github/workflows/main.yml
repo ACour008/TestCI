@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build Unity Projects
+    name: Build Unity projects
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -41,11 +41,11 @@ jobs:
       - name: Write Matrices
         uses: cloudposse/github-action-matrix-outputs-write@v1
         id: out
-        # with:
-          # matrix-step-name: ${{ github.job }}
-          # matrix-key: ${{ matrix.targetPlatform }}
-          # outputs: |-
-            # buildPaths: build/${{matrix.targetPlatform}}
+        with:
+          matrix-step-name: ${{ github.job }}
+          matrix-key: ${{ matrix.targetPlatform }}
+          outputs: |-
+            buildPaths: ${{matrix.targetPlatform}}
     
   read:
     runs-on: ubuntu-latest
@@ -59,7 +59,7 @@ jobs:
       result: "${{ steps.read.outputs.result }}"
         
   push:
-    name: Push Windows Build to Itch
+    name: Push builds to itch.io
     runs-on: ubuntu-latest
     needs: [read]
     strategy:
@@ -81,7 +81,7 @@ jobs:
         uses: ./actions/push-to-itchio
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-          PACKAGE: ${{ (needs.read.outputs.result).buildPath }}
+          PACKAGE: build/${{ (needs.read.outputs.result).buildPath }}
           USER: acour008
           GAME_NAME: testci
           CHANNEL: ${{ matrix.targetPlatform }}
